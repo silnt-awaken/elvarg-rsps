@@ -21,7 +21,14 @@ dependencies {
 group = "Elvarg"
 version = "1.0-SNAPSHOT"
 description = "Elvarg-Game-Client"
-java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.sourceCompatibility = JavaVersion.VERSION_17
+
+tasks.withType<JavaCompile> {
+    options.compilerArgs.addAll(listOf(
+        "-Xlint:-removal",
+        "-Xlint:-deprecation"
+    ))
+}
 
 application {
     mainClass.set("com.runescape.GameWindow")
