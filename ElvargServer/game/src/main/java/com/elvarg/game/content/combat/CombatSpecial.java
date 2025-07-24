@@ -9,6 +9,7 @@ import com.elvarg.game.content.combat.WeaponInterfaces.WeaponInterface;
 import com.elvarg.game.content.combat.method.CombatMethod;
 import com.elvarg.game.content.combat.method.impl.specials.AbyssalBludgeonCombatMethod;
 import com.elvarg.game.content.combat.method.impl.specials.AbyssalClawCombatMethod;
+import com.elvarg.game.content.combat.method.impl.specials.AbyssalCrossbowCombatMethod;
 import com.elvarg.game.content.combat.method.impl.specials.AbyssalDaggerCombatMethod;
 import com.elvarg.game.content.combat.method.impl.specials.AbyssalTentacleCombatMethod;
 import com.elvarg.game.content.combat.method.impl.specials.AbyssalWhipCombatMethod;
@@ -114,6 +115,8 @@ public enum CombatSpecial {
             new ArmadylCrossbowCombatMethod(), WeaponInterface.CROSSBOW),
     ZARYTE_CROSSBOW(new int[]{26374}, 75, 1, 2.0,
                     new ZaryteCrossbowCombatMethod(), WeaponInterface.CROSSBOW),
+    ABYSSAL_CROSSBOW(new int[]{11167}, 50, 1, 2.5,
+                     new AbyssalCrossbowCombatMethod(), WeaponInterface.CROSSBOW),
     BALLISTA(new int[]{19478, 19481},
             65, 1.25, 1.25, new BallistaCombatMethod(), WeaponInterface.BALLISTA),
     MORRIGANS_JAVELIN(new int[]{22636},

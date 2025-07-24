@@ -300,7 +300,7 @@ public class PredefinedPresets {
             new Item[]{
                     new Item(SUPER_STRENGTH_4_), new Item(SARADOMIN_BREW_4_), new Item(SUPER_RESTORE_4_), new Item(SUPER_RESTORE_4_),
                     new Item(SUPER_ATTACK_4_), new Item(ASTRAL_RUNE, 1000), new Item(EARTH_RUNE, 1000), new Item(DEATH_RUNE, 1000),
-                    new Item(ABYSSAL_CLAWS), new Item(COOKED_KARAMBWAN), new Item(COOKED_KARAMBWAN), new Item(COOKED_KARAMBWAN),
+                    new Item(ABYSSAL_CLAWS), new Item(ABYSSAL_CROSSBOW), new Item(DRAGON_BOLTS_E_, 1000), new Item(COOKED_KARAMBWAN),
                     new Item(COOKED_KARAMBWAN), new Item(COOKED_KARAMBWAN), new Item(COOKED_KARAMBWAN), new Item(COOKED_KARAMBWAN),
                     new Item(SHARK), new Item(SHARK), new Item(SHARK), new Item(SHARK),
                     new Item(SHARK), new Item(SHARK), new Item(SHARK), new Item(SHARK),
