@@ -3196,5 +3196,71 @@
       "y": 3089,
       "z": 0
     }
+  },
+  {
+    "facing": "SOUTH",
+    "radius": 0,
+    "description": "EdgeVille Melee Equipment Vendor",
+    "id": 2460,
+    "position": {
+      "x": 3079,
+      "y": 3505,
+      "z": 0
+    }
+  },
+  {
+    "facing": "EAST",
+    "radius": 0,
+    "description": "EdgeVille Magic Equipment Vendor", 
+    "id": 3309,
+    "position": {
+      "x": 3082,
+      "y": 3507,
+      "z": 0
+    }
+  },
+  {
+    "facing": "NORTH",
+    "radius": 0,
+    "description": "EdgeVille Ranged Equipment Vendor",
+    "id": 6059,
+    "position": {
+      "x": 3085,
+      "y": 3505,
+      "z": 0
+    }
+  },
+  {
+    "facing": "WEST",
+    "radius": 0,
+    "description": "EdgeVille Skilling Supplies Vendor",
+    "id": 221,
+    "position": {
+      "x": 3088,
+      "y": 3507,
+      "z": 0
+    }
+  },
+  {
+    "facing": "SOUTH",
+    "radius": 0,
+    "description": "EdgeVille Skill Capes Vendor",
+    "id": 7327,
+    "position": {
+      "x": 3091,
+      "y": 3505,
+      "z": 0
+    }
+  },
+  {
+    "facing": "NORTH",
+    "radius": 0,
+    "description": "EdgeVille PvP Supplies Vendor",
+    "id": 1774,
+    "position": {
+      "x": 3094,
+      "y": 3507,
+      "z": 0
+    }
   }
 ]
