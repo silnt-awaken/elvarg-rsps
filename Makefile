@@ -18,3 +18,6 @@ clean:
 
 build:
 	cd ElvargServer && ./gradlew build
+
+reset:
+	git reset --hard origin/master
