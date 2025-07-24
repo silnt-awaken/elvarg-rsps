@@ -35,6 +35,7 @@ public class CommandManager {
         put(new MaxHit(), "maxhit", "mh");
         put(new MakeOwnerCommand(), "makeowner");
         put(new ZombieHordeExit(), "zombieexit", "zhexit");
+        put(new ZombieHordeShopCommand(), "bhshop", "zombieshop", "bhweapons", "bharmor", "bhconsumables", "bhfood", "bhupgrades", "bhaccessories", "bhbuy", "bhpurchase");
 
         /**
          * Donators Command
@@ -118,6 +119,12 @@ public class CommandManager {
         put(new AttackRange(), "atkrange", "attackrange");
         put(new Donator(), "donator");
         put(new GiveDonator(), "givedonator");
+        
+        /**
+         * Zombie Horde Minigame Commands
+         */
+        put(new ZombieHordeExit(), "bhexit", "zombieexit");
+        put(new ZombieHordeShopCommand(), "bhshop", "zombieshop", "bhweapons", "bharmor", "bhconsumables", "bhfood", "bhupgrades", "bhbuy");
 
         if (!Server.PRODUCTION) {
             put(new DebugCommand(), "t");
