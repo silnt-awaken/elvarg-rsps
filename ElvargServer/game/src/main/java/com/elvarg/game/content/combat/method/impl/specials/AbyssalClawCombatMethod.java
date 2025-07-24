@@ -19,8 +19,8 @@ public class AbyssalClawCombatMethod extends MeleeCombatMethod {
 
     @Override
     public PendingHit[] hits(Mobile character, Mobile target) {
-        PendingHit hit = new PendingHit(character, target, this, true, 6, 0);
-        // Abyssal Claws have a unique 6-hit pattern with cascading damage
+        PendingHit hit = new PendingHit(character, target, this, true, 4, 0);
+        // Abyssal Claws have enhanced 4-hit pattern with higher damage potential
 
         // Damage rolls occur from a range based around the max hit
         int maxHit = DamageFormulas.calculateMaxMeleeHit(character);
@@ -30,78 +30,48 @@ public class AbyssalClawCombatMethod extends MeleeCombatMethod {
             maxHit *= damageMultiplier;
         }
 
-        final int first, second, third, fourth, fifth, sixth;
+        final int first, second, third, fourth;
         
-        // First roll hit
+        // First roll hit - Enhanced damage compared to dragon claws
         if (hit.getHits()[0].getDamage() > 0) {
-            first = Misc.randomInclusive((int) Math.round(maxHit * 0.6), maxHit);
-            second = (int) Math.round(first * 0.6);
-            third = (int) Math.round(second * 0.6);
-            fourth = (int) Math.round(third * 0.7);
-            fifth = (int) Math.round(fourth * 0.7);
-            sixth = (int) Math.round(fifth * 0.8) + Misc.random(2);
+            first = Misc.randomInclusive((int) Math.round(maxHit * 0.6), (int) Math.round(maxHit * 1.1));
+            second = (int) Math.round(first * 0.65);
+            third = (int) Math.round(second * 0.65);
+            fourth = (int) Math.round(third * 0.75) + Misc.random(3);
         }
-        // Second roll hit
+        // Second roll hit - Enhanced damage
         else if (hit.getHits()[1].getDamage() > 0) {
             first = 0;
-            second = Misc.randomInclusive((int) Math.round(maxHit * 0.4), (int) Math.round(maxHit * 0.9));
-            third = (int) Math.round(second * 0.6);
-            fourth = (int) Math.round(third * 0.7);
-            fifth = (int) Math.round(fourth * 0.7);
-            sixth = (int) Math.round(fifth * 0.8) + Misc.random(2);
+            second = Misc.randomInclusive((int) Math.round(maxHit * 0.45), (int) Math.round(maxHit * 1.0));
+            third = (int) Math.round(second * 0.65);
+            fourth = (int) Math.round(third * 0.75) + Misc.random(3);
         }
-        // Third roll hit
+        // Third roll hit - Enhanced damage
         else if (hit.getHits()[2].getDamage() > 0) {
             first = 0;
             second = 0;
-            third = Misc.randomInclusive((int) Math.round(maxHit * 0.3), (int) Math.round(maxHit * 0.8));
-            fourth = (int) Math.round(third * 0.7);
-            fifth = (int) Math.round(fourth * 0.7);
-            sixth = (int) Math.round(fifth * 0.8) + Misc.random(2);
+            third = Misc.randomInclusive((int) Math.round(maxHit * 0.35), (int) Math.round(maxHit * 0.9));
+            fourth = (int) Math.round(third * 0.75) + Misc.random(3);
         }
-        // Fourth roll hit
+        // Fourth roll hit - Enhanced damage
         else if (hit.getHits()[3].getDamage() > 0) {
             first = 0;
             second = 0;
             third = 0;
-            fourth = Misc.randomInclusive((int) Math.round(maxHit * 0.25), (int) Math.round(maxHit * 0.75));
-            fifth = (int) Math.round(fourth * 0.7);
-            sixth = (int) Math.round(fifth * 0.8) + Misc.random(2);
+            fourth = Misc.randomInclusive((int) Math.round(maxHit * 0.3), (int) Math.round(maxHit * 1.4));
         }
-        // Fifth roll hit
-        else if (hit.getHits()[4].getDamage() > 0) {
-            first = 0;
-            second = 0;
-            third = 0;
-            fourth = 0;
-            fifth = Misc.randomInclusive((int) Math.round(maxHit * 0.2), (int) Math.round(maxHit * 0.7));
-            sixth = (int) Math.round(fifth * 0.8) + Misc.random(2);
-        }
-        // Sixth roll hit
-        else if (hit.getHits()[5].getDamage() > 0) {
-            first = 0;
-            second = 0;
-            third = 0;
-            fourth = 0;
-            fifth = 0;
-            sixth = Misc.randomInclusive((int) Math.round(maxHit * 0.2), (int) Math.round(maxHit * 1.3));
-        }
-        // No roll hit
+        // No roll hit - Enhanced minimum damage
         else {
             first = 0;
             second = 0;
-            third = 0;
-            fourth = Misc.random(1); // 50% chance to hit 1
-            fifth = Misc.random(1); // 50% chance to hit 1
-            sixth = Misc.random(2); // 50% chance to hit 1, 50% chance to hit 0
+            third = Misc.random(2); // 50% chance to hit 1
+            fourth = Misc.random(2); // 50% chance to hit 1
         }
 
         hit.getHits()[0].setDamage(first);
         hit.getHits()[1].setDamage(second);
         hit.getHits()[2].setDamage(third);
         hit.getHits()[3].setDamage(fourth);
-        hit.getHits()[4].setDamage(fifth);
-        hit.getHits()[5].setDamage(sixth);
         hit.updateTotalDamage();
         return new PendingHit[] { hit };
     }
