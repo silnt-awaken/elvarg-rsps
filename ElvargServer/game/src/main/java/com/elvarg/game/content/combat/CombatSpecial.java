@@ -102,7 +102,7 @@ public enum CombatSpecial {
             WeaponInterface.GRANITE_MAUL),
     DRAGON_CLAWS(new int[]{13652}, 50, 1, 1.35,
             new DragonClawCombatMethod(), WeaponInterface.CLAWS),
-    ABYSSAL_CLAWS(new int[]{20780}, 50, 1, 1.5,
+    ABYSSAL_CLAWS(new int[]{20784}, 50, 1, 1.5,
             new AbyssalClawCombatMethod(), WeaponInterface.CLAWS),
 
     // Ranged
