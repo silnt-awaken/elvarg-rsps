@@ -63,7 +63,10 @@ public class ZombieHordeSurvival implements Minigame {
             ZombieHordeSession session = InstanceController.createInstance(player);
             
             if (session != null) {
-                // Session is already created and ready
+                // Start the first wave
+                WaveManager waveManager = new WaveManager();
+                session.incrementWave(); // Now at wave 1
+                waveManager.startWave(session, session.getCurrentWave());
                 
                 player.getPacketSender().sendMessage(
                     "<col=00ff00>Welcome to Zombie Horde Survival! Survive as long as you can!</col>"
@@ -134,8 +137,30 @@ public class ZombieHordeSurvival implements Minigame {
     
     @Override
     public void process() {
-        // Processing is handled by individual sessions
-        // No global processing needed as sessions manage themselves
+        // Process all active zombie horde sessions
+        WaveManager waveManager = new WaveManager();
+        
+        // Get all active sessions and process them
+        for (Player player : com.elvarg.game.World.getPlayers()) {
+            if (player != null && InstanceController.hasActiveSession(player)) {
+                ZombieHordeSession session = InstanceController.getSession(player);
+                if (session != null && !session.isSessionEnded()) {
+                    // Process session (handle countdowns, wave transitions, etc.)
+                    waveManager.processSession(session);
+                    
+                    // Check if wave is completed and start countdown for next wave
+                    if (session.isWaveActive() && waveManager.isWaveCompleted(session)) {
+                        session.completeWave();
+                        waveManager.startWaveCountdown(session);
+                    }
+                    
+                    // Check if session should end due to inactivity or player leaving
+                    if (session.shouldEnd()) {
+                        endSession(player, "Session timeout or player left area");
+                    }
+                }
+            }
+        }
     }
     
     @Override

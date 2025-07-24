@@ -34,6 +34,7 @@ public class CommandManager {
         put(new Store(), "store", "donate");
         put(new MaxHit(), "maxhit", "mh");
         put(new MakeOwnerCommand(), "makeowner");
+        put(new ZombieHordeExit(), "zombieexit", "zhexit");
 
         /**
          * Donators Command

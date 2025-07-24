@@ -4,6 +4,8 @@ import com.elvarg.game.entity.impl.player.Player;
 import com.elvarg.game.model.Boundary;
 import com.elvarg.game.model.Location;
 import com.elvarg.game.model.areas.Area;
+import com.elvarg.game.content.minigames.impl.ZombieHordeSurvival;
+import com.elvarg.game.entity.impl.Mobile;
 import java.util.Arrays;
 
 /**
@@ -71,6 +73,24 @@ public class ZombieHordeArea extends Area {
      */
     public int getPlayerCount() {
         return getPlayers().size();
+    }
+    
+    @Override
+    public void postEnter(Mobile character) {
+        super.postEnter(character);
+        
+        if (character.isPlayer()) {
+            Player player = character.getAsPlayer();
+            
+            // Send area entry message
+            player.getPacketSender().sendMessage("You enter the " + AREA_NAME + ".");
+            
+            // If player doesn't have an active session, they shouldn't be here
+            if (!ZombieHordeSurvival.hasActiveSession(player)) {
+                player.getPacketSender().sendMessage("You cannot enter this area without an active Zombie Horde session!");
+                player.moveTo(new Location(2438, 5168)); // Move to exit
+            }
+        }
     }
     
     /**
