@@ -75,13 +75,15 @@ public class DamageFormulas {
             maxHit *= 1 + ((max - hp) / 100f) * (max / 100f);
         }
         
-        // Torag's Hammers max hit when wearing full Torag's set
-        if (CombatFactory.fullTorags(player) && player.getEquipment().get(Equipment.WEAPON_SLOT).getId() == 4747) {
-            maxHit = 99;
-        }
-
         if (player.isSpecialActivated()) {
             maxHit *= player.getCombatSpecial().getStrengthMultiplier();
+        }
+        
+        // Torag's Hammers max hit when wearing full Torag's set - must be last to override everything
+        if (CombatFactory.fullTorags(player) && player.getEquipment().get(Equipment.WEAPON_SLOT).getId() == 4747) {
+            maxHit = 99;
+            // Debug message to confirm it's working
+            player.getPacketSender().sendMessage("Torag's set effect activated! Max hit: 99");
         }
 
         return (int) Math.floor(maxHit);
