@@ -3,6 +3,7 @@ package com.elvarg.game.content.minigames.impl.zombiehorde;
 import com.elvarg.game.entity.impl.player.Player;
 import com.elvarg.game.model.areas.impl.ZombieHordeArea;
 import com.elvarg.game.entity.impl.npc.NPC;
+import com.elvarg.game.model.Item;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,10 @@ public class ZombieHordeSession {
     private int highestWaveReached;
     private long totalSessionTime;
     
+    // Equipment storage for safe gear management
+    private Item[] originalEquipment;
+    private Item[] originalInventory;
+    
     /**
      * Creates a new zombie horde session.
      * 
@@ -80,6 +85,10 @@ public class ZombieHordeSession {
         // Initialize statistics
         this.highestWaveReached = 0;
         this.totalSessionTime = 0;
+        
+        // Store and replace player equipment/inventory
+        storeOriginalGear();
+        giveStarterGear();
     }
     
     /**
@@ -265,12 +274,88 @@ public class ZombieHordeSession {
     }
     
     /**
+     * Stores the player's original equipment and inventory safely.
+     */
+    private void storeOriginalGear() {
+        try {
+            // Clone the current equipment and inventory to preserve them
+            this.originalEquipment = player.getEquipment().getCopiedItems();
+            this.originalInventory = player.getInventory().getCopiedItems();
+            
+            player.getPacketSender().sendMessage("<col=005500>Your gear has been safely stored.</col>");
+        } catch (Exception e) {
+            System.err.println("Error storing original gear for player " + player.getUsername() + ": " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Gives the player basic starter gear for the minigame.
+     */
+    private void giveStarterGear() {
+        try {
+            // Clear current equipment and inventory
+            player.getEquipment().resetItems();
+            player.getInventory().resetItems();
+            
+            // Give starter weapon (Iron scimitar)
+            player.getEquipment().set(3, new Item(1323, 1)); // Equipment.WEAPON_SLOT
+            
+            // Give starter armor
+            player.getEquipment().set(0, new Item(1155, 1)); // HEAD_SLOT - Iron full helm
+            player.getEquipment().set(4, new Item(1115, 1)); // BODY_SLOT - Iron platebody
+            player.getEquipment().set(7, new Item(1067, 1)); // LEG_SLOT - Iron platelegs
+            player.getEquipment().set(10, new Item(1027, 1)); // FEET_SLOT - Iron boots
+            
+            // Give starter supplies
+            player.getInventory().add(new Item(385, 5)); // 5 Sharks for food
+            player.getInventory().add(new Item(2434, 3)); // 3 Prayer potions
+            
+            // Refresh the containers to update client
+            player.getEquipment().refreshItems();
+            player.getInventory().refreshItems();
+            
+            player.getPacketSender().sendMessage("<col=00ff00>You have been equipped with starter gear!</col>");
+            
+        } catch (Exception e) {
+            System.err.println("Error giving starter gear to player " + player.getUsername() + ": " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Restores the player's original equipment and inventory.
+     */
+    public void restoreOriginalGear() {
+        try {
+            if (originalEquipment != null && originalInventory != null) {
+                // Clear current minigame gear
+                player.getEquipment().resetItems();
+                player.getInventory().resetItems();
+                
+                // Restore original equipment and inventory
+                player.getEquipment().setItems(originalEquipment);
+                player.getInventory().setItems(originalInventory);
+                
+                // Refresh the containers to update client
+                player.getEquipment().refreshItems();
+                player.getInventory().refreshItems();
+                
+                player.getPacketSender().sendMessage("<col=00ff00>Your original gear has been restored!</col>");
+            } else {
+                player.getPacketSender().sendMessage("<col=ff0000>Error: Could not restore original gear!</col>");
+            }
+        } catch (Exception e) {
+            System.err.println("Error restoring original gear for player " + player.getUsername() + ": " + e.getMessage());
+        }
+    }
+    
+    /**
      * Marks the session as ended.
      */
     public void endSession() {
         this.sessionEnded = true;
         this.totalSessionTime = System.currentTimeMillis() - sessionStartTime;
         clearActiveZombies();
+        restoreOriginalGear();
     }
     
     /**
@@ -284,7 +369,12 @@ public class ZombieHordeSession {
         }
         
         try {
-            endSession();
+            // Restore gear before ending session
+            restoreOriginalGear();
+            
+            this.sessionEnded = true;
+            this.totalSessionTime = System.currentTimeMillis() - sessionStartTime;
+            clearActiveZombies();
             
             // Let InstanceController handle the cleanup and rewards
             InstanceController.endSession(player, reason);

@@ -35,6 +35,7 @@ public class CommandManager {
         put(new MaxHit(), "maxhit", "mh");
         put(new MakeOwnerCommand(), "makeowner");
         put(new ZombieHordeExit(), "zombieexit", "zhexit");
+        put(new ZombieHordeShopCommand(), "bhshop", "zombieshop", "bhweapons", "bharmor", "bhconsumables", "bhfood", "bhupgrades", "bhaccessories", "bhbuy", "bhpurchase");
 
         /**
          * Donators Command
