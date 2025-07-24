@@ -33,9 +33,7 @@ public class ZombieHordeNPC extends NPC {
         this.waveNumber = waveNumber;
         this.zombieType = zombieType;
         
-        // Set the zombie to be aggressive toward the player
-        this.setAggressive(true);
-        this.setAggressionDistance(15); // Large aggression range
+        // Aggression is handled by overriding isAggressiveTo() and aggressionDistance() methods
         
         // Set the target player
         if (session != null && session.getPlayer() != null) {
@@ -44,22 +42,18 @@ public class ZombieHordeNPC extends NPC {
     }
     
     @Override
-    public void onDeath() {
-        super.onDeath();
+    public void appendDeath() {
+        super.appendDeath();
         
         // Notify the session about the zombie death
         if (session != null && !session.isSessionEnded()) {
-            ZombieHordeSurvival.onZombieKilled(session, this.getId());
-            
             // Remove from session tracking
             session.removeActiveZombie(this);
             
             // Send kill message to player
             Player player = session.getPlayer();
             if (player != null && player.isRegistered()) {
-                player.getPacketSender().sendMessage("<col=ff0000>" + zombieType + " defeated! (" + 
-                    (session.getZombiesToSpawnThisWave() - session.getActiveZombies().size()) + "/" + 
-                    session.getZombiesToSpawnThisWave() + ")");
+                player.getPacketSender().sendMessage("<col=ff0000>" + zombieType + " defeated!");
             }
         }
     }
@@ -76,43 +70,18 @@ public class ZombieHordeNPC extends NPC {
         
         // Check if player is still in the area
         Player player = session.getPlayer();
-        if (player == null || !player.isRegistered() || !session.getArea().contains(player)) {
+        if (player == null || !player.isRegistered()) {
             this.remove();
             return;
         }
         
         // Ensure zombie stays aggressive toward the player
-        if (!this.getCombat().isBeingAttacked() && !this.getCombat().isAttacking()) {
-            if (this.getLocation().getDistance(player.getLocation()) <= 15) {
-                this.getCombat().attack(player);
-            }
-        }
-        
-        // Prevent zombie from wandering too far from the arena
-        Location arenaCenter = ZombieHordeSurvival.ARENA_CENTER;
-        if (this.getLocation().getDistance(arenaCenter) > 25) {
-            // Move zombie back toward the arena center
-            this.getMovementQueue().walkTo(arenaCenter);
+        if (this.getLocation().getDistance(player.getLocation()) <= 15) {
+            this.getCombat().attack(player);
         }
     }
     
-    @Override
-    public boolean canAttack(Player player) {
-        // Only allow attacking the session player
-        if (session != null && session.getPlayer() != null) {
-            return session.getPlayer().equals(player);
-        }
-        return false;
-    }
-    
-    @Override
-    public boolean canBeAttacked(Player player) {
-        // Only allow the session player to attack this zombie
-        if (session != null && session.getPlayer() != null) {
-            return session.getPlayer().equals(player);
-        }
-        return false;
-    }
+    // Custom methods for zombie behavior (not overrides)
     
     @Override
     public void onAdd() {
@@ -218,5 +187,20 @@ public class ZombieHordeNPC extends NPC {
         }
         
         return false;
+    }
+    
+    @Override
+    public boolean isAggressiveTo(Player player) {
+        // Zombies are aggressive only toward their session player
+        if (session != null && session.getPlayer() != null) {
+            return session.getPlayer().equals(player);
+        }
+        return false;
+    }
+    
+    @Override
+    public int aggressionDistance() {
+        // Large aggression range for zombies
+        return 15;
     }
 }

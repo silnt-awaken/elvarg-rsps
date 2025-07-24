@@ -316,10 +316,6 @@ public class ZombieHordeSession {
         return waveKills;
     }
     
-    public int getTotalBloodMoneyEarned() {
-        return totalBloodMoneyEarned;
-    }
-    
     public boolean isWaveActive() {
         return waveActive;
     }

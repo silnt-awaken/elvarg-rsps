@@ -63,8 +63,7 @@ public class ZombieHordeSurvival implements Minigame {
             ZombieHordeSession session = InstanceController.createInstance(player);
             
             if (session != null) {
-                // Start the session
-                session.start();
+                // Session is already created and ready
                 
                 player.getPacketSender().sendMessage(
                     "<col=00ff00>Welcome to Zombie Horde Survival! Survive as long as you can!</col>"

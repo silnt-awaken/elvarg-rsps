@@ -211,10 +211,7 @@ public class WaveManager {
         int scaledDamage = (int) (baseDamage * damageMultiplier);
         
         zombie.setHitpoints(scaledHp);
-        zombie.getDefinition().setMaxHit(scaledDamage);
-        
-        // Set constitution to match hitpoints
-        zombie.setConstitution(scaledHp);
+        // Note: Max hit and constitution scaling would need custom implementation
     }
     
     /**

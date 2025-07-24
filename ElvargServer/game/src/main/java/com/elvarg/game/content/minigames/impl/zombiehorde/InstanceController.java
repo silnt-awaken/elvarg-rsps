@@ -4,6 +4,8 @@ import com.elvarg.game.entity.impl.player.Player;
 import com.elvarg.game.model.Location;
 import com.elvarg.game.World;
 import com.elvarg.game.entity.impl.npc.NPC;
+import com.elvarg.game.model.areas.impl.ZombieHordeArea;
+import com.elvarg.game.content.minigames.impl.ZombieHordeSurvival;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 import java.util.List;
@@ -51,12 +53,15 @@ public class InstanceController {
         }
         
         try {
+            // Create new area instance for the session
+            ZombieHordeArea area = new ZombieHordeArea();
+            
             // Create new session
-            ZombieHordeSession session = new ZombieHordeSession(player);
+            ZombieHordeSession session = new ZombieHordeSession(player, area);
             activeSessions.put(username, session);
             
-            // Initialize the session
-            session.initialize();
+            // Start the zombie horde session
+            ZombieHordeSurvival.start(player);
             
             player.getPacketSender().sendMessage(
                 "<col=00ff00>Zombie Horde instance created! Prepare for battle...</col>"
@@ -135,8 +140,8 @@ public class InstanceController {
             int totalBloodMoney = session.getTotalBloodMoneyEarned();
             RewardManager.awardSessionEndRewards(player, finalWave, totalBloodMoney);
             
-            // Stop all timers and tasks
-            session.cleanup();
+            // Clear active zombies
+            session.clearActiveZombies();
             
             // Remove all zombies from the instance area
             removeInstanceZombies();
