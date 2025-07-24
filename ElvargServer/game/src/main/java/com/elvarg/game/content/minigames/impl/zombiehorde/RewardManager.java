@@ -12,24 +12,34 @@ import com.elvarg.util.ItemIdentifiers;
  */
 public class RewardManager {
     
-    // Base Blood Money reward per wave
-    private static final int BASE_BLOOD_MONEY = 50;
+    // Base Blood Money reward per wave (reduced for economy balance)
+    private static final int BASE_BLOOD_MONEY = 15;
     
-    // Milestone wave interval (every 10 waves)
-    private static final int MILESTONE_INTERVAL = 10;
+    // Milestone wave interval (every 15 waves for better balance)
+    private static final int MILESTONE_INTERVAL = 15;
     
-    // Bonus Blood Money for milestones
-    private static final int MILESTONE_BONUS = 500;
+    // Bonus Blood Money for milestones (reduced significantly)
+    private static final int MILESTONE_BONUS = 100;
     
     /**
      * Calculates Blood Money reward for completing a wave.
-     * Formula: Base 50 BM × current wave number
+     * Formula: Base 15 BM + (wave × 3) with diminishing returns after wave 20
      * 
      * @param waveNumber The completed wave number
      * @return The Blood Money amount to award
      */
     public static int calculateWaveReward(int waveNumber) {
-        return BASE_BLOOD_MONEY * waveNumber;
+        int baseReward = BASE_BLOOD_MONEY + (waveNumber * 3);
+        
+        // Apply diminishing returns after wave 20 to prevent inflation
+        if (waveNumber > 20) {
+            int excessWaves = waveNumber - 20;
+            double diminishingFactor = 1.0 / (1.0 + (excessWaves * 0.1));
+            baseReward = (int) (baseReward * diminishingFactor);
+        }
+        
+        // Cap maximum reward per wave to 150 Blood Money
+        return Math.min(baseReward, 150);
     }
     
     /**
@@ -108,34 +118,34 @@ public class RewardManager {
      */
     private static void awardSpecialMilestoneItems(Player player, int waveNumber) {
         switch (waveNumber) {
-            case 25:
-                // Award a special item for wave 25
-                player.getInventory().add(new Item(ItemIdentifiers.COINS, 100000));
+            case 30:
+                // Award a special item for wave 30
+                player.getInventory().add(new Item(ItemIdentifiers.COINS, 50000));
                 player.getPacketSender().sendMessage(
-                    "<col=ffff00>Special reward: 100,000 coins for reaching wave 25!</col>"
+                    "<col=ffff00>Special reward: 50,000 coins for reaching wave 30!</col>"
                 );
                 break;
                 
-            case 50:
-                // Award a rare item for wave 50
-                player.getInventory().add(new Item(ItemIdentifiers.DRAGON_BONES, 50));
+            case 60:
+                // Award a rare item for wave 60
+                player.getInventory().add(new Item(ItemIdentifiers.DRAGON_BONES, 15));
                 player.getPacketSender().sendMessage(
-                    "<col=ffff00>Special reward: 50 Dragon bones for reaching wave 50!</col>"
+                    "<col=ffff00>Special reward: 15 Dragon bones for reaching wave 60!</col>"
                 );
                 break;
                 
             case 100:
                 // Award an extremely rare item for wave 100
-                player.getInventory().add(new Item(ItemIdentifiers.RUNE_PLATEBODY, 1));
+                player.getInventory().add(new Item(ItemIdentifiers.BLOOD_MONEY, 1000));
                 player.getPacketSender().sendMessage(
-                    "<col=ffff00>LEGENDARY REWARD: Rune platebody for reaching wave 100!</col>"
+                    "<col=ffff00>LEGENDARY REWARD: 1,000 Blood Money for reaching wave 100!</col>"
                 );
                 break;
                 
             default:
-                // For other major milestones (every 50 waves after 100)
-                if (waveNumber >= 150 && waveNumber % 50 == 0) {
-                    int extraBloodMoney = waveNumber * 10; // Scaling bonus
+                // For other major milestones (every 75 waves after 100)
+                if (waveNumber >= 175 && waveNumber % 75 == 0) {
+                    int extraBloodMoney = waveNumber * 3; // Reduced scaling bonus
                     player.getInventory().add(new Item(ItemIdentifiers.BLOOD_MONEY, extraBloodMoney));
                     player.getPacketSender().sendMessage(
                         "<col=ffff00>Epic milestone bonus: " + extraBloodMoney + " Blood Money!</col>"
@@ -164,8 +174,8 @@ public class RewardManager {
             "<col=ffffff>Total Blood Money Earned: " + totalBloodMoney + "</col>"
         );
         
-        // Award participation bonus based on performance
-        int participationBonus = Math.min(finalWave * 5, 1000); // Cap at 1000
+        // Award participation bonus based on performance (reduced for balance)
+        int participationBonus = Math.min(finalWave * 2, 250); // Cap at 250
         if (participationBonus > 0) {
             player.getInventory().add(new Item(ItemIdentifiers.BLOOD_MONEY, participationBonus));
             player.getPacketSender().sendMessage(

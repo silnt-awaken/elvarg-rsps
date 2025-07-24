@@ -50,10 +50,20 @@ public class ZombieHordeNPC extends NPC {
             // Remove from session tracking
             session.removeActiveZombie(this);
             
+            // Award blood money and increment kill count
+            session.incrementKills();
+            
+            // Calculate blood money reward based on wave and zombie type
+            int bloodMoneyReward = calculateBloodMoneyReward();
+            session.addBloodMoney(bloodMoneyReward);
+            
             // Send kill message to player
             Player player = session.getPlayer();
             if (player != null && player.isRegistered()) {
-                player.getPacketSender().sendMessage("<col=ff0000>" + zombieType + " defeated!");
+                player.getPacketSender().sendMessage(
+                    "<col=ff0000>" + zombieType + " defeated! </col>" +
+                    "<col=00ff00>+" + bloodMoneyReward + " Blood Money</col>"
+                );
             }
         }
     }
@@ -162,6 +172,49 @@ public class ZombieHordeNPC extends NPC {
             return this.getLocation().getDistance(session.getPlayer().getLocation());
         }
         return -1;
+    }
+    
+    /**
+     * Calculates the blood money reward for killing this zombie.
+     * 
+     * @return The blood money reward amount
+     */
+    private int calculateBloodMoneyReward() {
+        if (session == null) {
+            return 0;
+        }
+        
+        int currentWave = session.getCurrentWave();
+        int baseReward = 0;
+        
+        // Base reward depends on zombie type
+        switch (zombieType.toLowerCase()) {
+            case "basic zombie":
+                baseReward = 8;
+                break;
+            case "fast zombie":
+                baseReward = 12;
+                break;
+            case "strong zombie":
+                baseReward = 15;
+                break;
+            case "boss zombie":
+                baseReward = 25;
+                break;
+            case "elite zombie":
+                baseReward = 35;
+                break;
+            default:
+                baseReward = 10; // Default reward
+                break;
+        }
+        
+        // Scale reward by wave (1.5x per wave after wave 1)
+        double waveMultiplier = 1.0 + (currentWave - 1) * 0.15;
+        int finalReward = (int) Math.round(baseReward * waveMultiplier);
+        
+        // Cap the reward to prevent inflation
+        return Math.min(finalReward, baseReward * 5); // Max 5x base reward
     }
     
     /**
