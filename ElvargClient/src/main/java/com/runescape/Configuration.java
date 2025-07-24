@@ -27,9 +27,9 @@ public final class Configuration {
     /**
      * Sends client-related debug messages to the client output stream
      */
-    public static boolean PRODUCTION_MODE = false;
-    public static String SERVER_ADDRESS = PRODUCTION_MODE ? "66.42.85.153" : "66.42.85.153";
-    public static int SERVER_PORT = 43595;
+    public static boolean PRODUCTION_MODE = Boolean.parseBoolean(System.getProperty("PRODUCTION_MODE", "false"));
+    public static String SERVER_ADDRESS = System.getProperty("SERVER_ADDRESS", "localhost");
+    public static int SERVER_PORT = Integer.parseInt(System.getProperty("SERVER_PORT", "43595"));
     /**
      * Dumps map region images when new regions are loaded.
      */
