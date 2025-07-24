@@ -8,6 +8,7 @@ import com.elvarg.game.content.Dueling.DuelRule;
 import com.elvarg.game.content.combat.WeaponInterfaces.WeaponInterface;
 import com.elvarg.game.content.combat.method.CombatMethod;
 import com.elvarg.game.content.combat.method.impl.specials.AbyssalBludgeonCombatMethod;
+import com.elvarg.game.content.combat.method.impl.specials.AbyssalClawCombatMethod;
 import com.elvarg.game.content.combat.method.impl.specials.AbyssalDaggerCombatMethod;
 import com.elvarg.game.content.combat.method.impl.specials.AbyssalTentacleCombatMethod;
 import com.elvarg.game.content.combat.method.impl.specials.AbyssalWhipCombatMethod;
@@ -101,6 +102,8 @@ public enum CombatSpecial {
             WeaponInterface.GRANITE_MAUL),
     DRAGON_CLAWS(new int[]{13652}, 50, 1, 1.35,
             new DragonClawCombatMethod(), WeaponInterface.CLAWS),
+    ABYSSAL_CLAWS(new int[]{26563}, 50, 1, 1.5,
+            new AbyssalClawCombatMethod(), WeaponInterface.CLAWS),
 
     // Ranged
     MAGIC_SHORTBOW(new int[]{861}, 55, 1, 1, new MagicShortbowCombatMethod(),
