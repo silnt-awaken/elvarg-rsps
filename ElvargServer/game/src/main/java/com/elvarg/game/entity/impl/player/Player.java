@@ -682,20 +682,20 @@ public class Player extends Mobile {
 			Presetables.load(this, Presetables.GLOBAL_PRESETS[presetIndex]);
 		}
 
-		if (!(this instanceof PlayerBot)) {
-			// Spawn player bots when a real player logs in
-			for (PlayerBotDefinition definition : GameConstants.PLAYER_BOTS) {
-				if (World.getPlayerBots().containsKey(definition.getUsername())) {
-					continue;
-				}
+		// if (!(this instanceof PlayerBot)) {
+		// 	// Spawn player bots when a real player logs in
+		// 	for (PlayerBotDefinition definition : GameConstants.PLAYER_BOTS) {
+		// 		if (World.getPlayerBots().containsKey(definition.getUsername())) {
+		// 			continue;
+		// 		}
 
-				PlayerBot playerBot = new PlayerBot(definition);
+		// 		PlayerBot playerBot = new PlayerBot(definition);
 
-				World.getPlayerBots().put(definition.getUsername(), playerBot);
-			}
+		// 		World.getPlayerBots().put(definition.getUsername(), playerBot);
+		// 	}
 
-			System.out.println(GameConstants.PLAYER_BOTS.length + " player bots now online.");
-		}
+		// 	System.out.println(GameConstants.PLAYER_BOTS.length + " player bots now online.");
+		// }
 	}
 
 	/**
