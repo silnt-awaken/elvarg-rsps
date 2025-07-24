@@ -74,6 +74,11 @@ public class DamageFormulas {
             float max = player.getSkillManager().getMaxLevel(Skill.HITPOINTS);
             maxHit *= 1 + ((max - hp) / 100f) * (max / 100f);
         }
+        
+        // Torag's Hammers max hit when wearing full Torag's set
+        if (CombatFactory.fullTorags(player) && player.getEquipment().get(Equipment.WEAPON_SLOT).getId() == 4747) {
+            maxHit = 99;
+        }
 
         if (player.isSpecialActivated()) {
             maxHit *= player.getCombatSpecial().getStrengthMultiplier();

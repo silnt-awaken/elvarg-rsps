@@ -11,6 +11,7 @@ import com.elvarg.game.model.areas.impl.BarrowsArea;
 import com.elvarg.game.model.areas.impl.DuelArenaArea;
 import com.elvarg.game.model.areas.impl.GodwarsDungeonArea;
 import com.elvarg.game.model.areas.impl.KingBlackDragonArea;
+import com.elvarg.game.model.areas.impl.PureRealmArea;
 import com.elvarg.game.model.areas.impl.WildernessArea;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class AreaManager {
         areas.add(new WildernessArea());
         areas.add(new KingBlackDragonArea());
         areas.add(new GodwarsDungeonArea());
+        areas.add(new PureRealmArea());
         areas.add(CastleWars.LOBBY_AREA);
         areas.add(CastleWars.ZAMORAK_WAITING_AREA);
         areas.add(CastleWars.SARADOMIN_WAITING_AREA);
