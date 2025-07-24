@@ -5,6 +5,7 @@ import com.elvarg.game.model.Location;
 import com.elvarg.game.model.rights.PlayerRights;
 import com.elvarg.game.model.teleportation.TeleportHandler;
 import com.elvarg.game.model.teleportation.Teleportable;
+import com.elvarg.game.content.minigames.impl.FightCaves;
 import com.elvarg.net.packet.Packet;
 import com.elvarg.net.packet.PacketExecutor;
 
@@ -40,6 +41,11 @@ public class TeleportPacketListener implements PacketExecutor {
 				if (TeleportHandler.checkReqs(player, teleportPosition)) {
 					player.getPreviousTeleports().put(teleport.getTeleportButton(), teleportPosition);
 					TeleportHandler.teleport(player, teleportPosition, player.getSpellbook().getTeleportType(), true);
+					
+					// Special handling for Fight Caves teleport - start zombie horde survival
+					if (teleport == Teleportable.FIGHT_CAVES) {
+						FightCaves.start(player);
+					}
 				}
 				break;
 			}

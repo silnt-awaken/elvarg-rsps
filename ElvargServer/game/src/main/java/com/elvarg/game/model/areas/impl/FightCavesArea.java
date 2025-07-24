@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import com.elvarg.game.content.minigames.impl.FightCaves;
+import com.elvarg.game.content.minigames.impl.ZombieHordeSurvival;
 import com.elvarg.game.entity.impl.Mobile;
 import com.elvarg.game.entity.impl.npc.NPC;
 import com.elvarg.game.entity.impl.object.GameObject;
@@ -24,7 +25,15 @@ public class FightCavesArea extends PrivateArea {
     @Override
     public void postLeave(Mobile mobile, boolean logout) {
         if (mobile.isPlayer() && logout) {
-            mobile.moveTo(FightCaves.EXIT);
+            Player player = mobile.getAsPlayer();
+            
+            // Handle zombie horde logout cleanup
+            if (ZombieHordeSurvival.hasActiveSession(player)) {
+                ZombieHordeSurvival.handleLogout(player);
+            } else {
+                // Regular Fight Caves logout
+                mobile.moveTo(FightCaves.EXIT);
+            }
         }
     }
 
@@ -64,9 +73,16 @@ public class FightCavesArea extends PrivateArea {
 
     @Override
     public boolean handleDeath(Player player, Optional<Player> killer) {
-        player.moveTo(FightCaves.EXIT);
-        //DialogueManager.start(player, 24);
-        return true;
+        // Check if player is in zombie horde session
+        if (ZombieHordeSurvival.hasActiveSession(player)) {
+            ZombieHordeSurvival.handleDeath(player);
+            return true; // Zombie horde handles its own death logic
+        } else {
+            // Regular Fight Caves death handling
+            player.moveTo(FightCaves.EXIT);
+            //DialogueManager.start(player, 24);
+            return true;
+        }
     }
 
     @Override

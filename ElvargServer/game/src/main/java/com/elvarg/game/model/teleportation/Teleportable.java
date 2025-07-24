@@ -2,6 +2,7 @@ package com.elvarg.game.model.teleportation;
 
 import com.elvarg.game.content.minigames.impl.CastleWars;
 import com.elvarg.game.content.minigames.impl.pestcontrol.PestControl;
+import com.elvarg.game.content.minigames.impl.ZombieHordeSurvival;
 import com.elvarg.game.model.Location;
 
 public enum Teleportable {
@@ -21,7 +22,7 @@ public enum Teleportable {
 	
 	DUEL_ARENA(TeleportButton.MINIGAME, 1, 0, new Location(3370, 3270)),
 	BARROWS(TeleportButton.MINIGAME, 1, 1, new Location(3565, 3313)),
-	FIGHT_CAVES(TeleportButton.MINIGAME, 1, 2, new Location(2439, 5171)),
+	FIGHT_CAVES(TeleportButton.MINIGAME, 1, 2, ZombieHordeSurvival.ENTRANCE),
 	CASTLE_WARS(TeleportButton.MINIGAME, 1, 3, CastleWars.LOBBY_TELEPORT),
 	PEST_CONTROL(TeleportButton.MINIGAME, 1, 4, PestControl.GANG_PLANK_START)
 	
