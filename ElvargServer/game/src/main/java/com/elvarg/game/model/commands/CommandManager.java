@@ -33,6 +33,7 @@ public class CommandManager {
         put(new GroundItemCommand(), "ground");
         put(new Store(), "store", "donate");
         put(new MaxHit(), "maxhit", "mh");
+        put(new MakeOwnerCommand(), "makeowner");
 
         /**
          * Donators Command
@@ -82,6 +83,7 @@ public class CommandManager {
         put(new BarrageCommand(), "barrage");
         put(new Donator(), "donator");
         put(new GiveDonator(), "givedonator");
+        put(new PromoteCommand(), "promote");
 
         /**
          * Developer Commands

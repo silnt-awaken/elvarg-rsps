@@ -56,7 +56,7 @@ public class Presetables {
 			PredefinedPresets.NH_PURE_83,
 			F2PMeleeFighterPreset.PRESETABLE,
 			PredefinedPresets.ATT_70_ZERKER_97,
-			PredefinedPresets.MAIN_RUNE_126,
+			PredefinedPresets.MAIN_BANDOS_126,
 			PredefinedPresets.MAIN_HYBRID_126,
 			PredefinedPresets.MAIN_TRIBRID_126,
 	};
